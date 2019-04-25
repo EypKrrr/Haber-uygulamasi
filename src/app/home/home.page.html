@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ortala">
+      Haberler Cepte
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-list-header>Okumak İstediğiniz Haber Türünü Seçiniz</ion-list-header>
+      
+        <ion-item>
+          <ion-label>Tür</ion-label>
+          <ion-select value="Tümü" okText="Seç" cancelText="İptal" [(ngModel)]="selected" (ionChange)="secilen(selected)">
+            <ion-select-option *ngFor="let item of turler" [value]="item">{{item}}</ion-select-option>
+          </ion-select>
+        </ion-item>    
+      </ion-list>
+      
+  <ion-card class="welcome-card" *ngFor="let item of news" [routerLink]="['/news-detail/', item.id]" routerDirection="forward">
+    <div *ngIf="selected == 'Tümü'">
+    <ion-img class="kucult" [src]="item.picture"></ion-img>
+    <ion-card-header>
+      <ion-card-subtitle>VİEWS {{item.views}}</ion-card-subtitle>
+      <ion-card-title>{{item.title}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Liked: {{item.liked}}  Disliked: {{item.disliked}}
+     <p class="sagaYasla"> Published: {{item.publish_date}} </p>
+    </ion-card-content>
+  </div>
+  <div *ngIf="item.type == selected">
+    <ion-img class="kucult" [src]="item.picture"></ion-img>
+    <ion-card-header>
+      <ion-card-subtitle>VİEWS {{item.views}}</ion-card-subtitle>
+      <ion-card-title>{{item.title}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Liked: {{item.liked}} Disliked: {{item.disliked}}
+      Published: {{item.publish_date}}
+    </ion-card-content>
+    
+  </div>
+  </ion-card>
+</ion-content>
