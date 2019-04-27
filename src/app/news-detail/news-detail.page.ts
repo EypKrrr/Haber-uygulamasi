@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {AllNews} from '../mock-news';
+import {NewsService} from '../news.service';
+import {News} from '../news';
 
 @Component({
   selector: 'app-news-detail',
@@ -9,37 +10,54 @@ import {AllNews} from '../mock-news';
 })
 export class NewsDetailPage implements OnInit {
 
-  selectedID = null;
-  news = AllNews;
-  liked = false;
-  disliked = false;
-  constructor(private activatedRoute: ActivatedRoute) { }
+  selectedId;
+  liked = 0;
+  disliked = 0;
+  selectedNews: News[];
+
+  constructor(private activatedRoute: ActivatedRoute, private newsService: NewsService) {
+
+   }
+
 
   ngOnInit() {
-    this.selectedID = this.activatedRoute.snapshot.paramMap.get('selectedID');
-    this.selectedID--;
-    if (this.news[this.selectedID].userviewed === false) {
-      this.news[this.selectedID].views++;
-      this.news[this.selectedID].userviewed = true;
+    this.selectedId = this.activatedRoute.snapshot.paramMap.get('selectedID');
+    console.log('selected id=', this.selectedId);
+    this.getNews();
+
+
+    if (this.selectedNews[0].userviewed === 0) {
+      this.selectedNews[0].views++;
+      this.selectedNews[0].userviewed = 1;
     }
-    if (this.news[this.selectedID].userliked === true || this.news[this.selectedID].userdisliked === true) {
-      this.liked = true;
-      this.disliked = true;
+    if (this.selectedNews[0].userliked === 1 || this.selectedNews[0].userdisliked === 1) {
+      this.liked = 1;
+      this.disliked = 1;
     }
+
   }
 
+
+
+  getNews(): void {
+    this.newsService.getNewsById(this.selectedId)
+    .subscribe(sNews => this.selectedNews = sNews);
+  }
+
+
   like() {
-    this.news[this.selectedID].liked++;
-    this.liked = true;
-    this.disliked = true;
-    this.news[this.selectedID].userliked = true;
+    this.selectedNews[0].liked++;
+    this.liked = 1;
+    this.disliked = 1;
+    this.selectedNews[0].userliked = 1;
+    console.log(this.selectedNews[0].liked);
   }
 
   dislike() {
-    this.news[this.selectedID].disliked++;
-    this.disliked = true;
-    this.liked = true;
-    this.news[this.selectedID].userdisliked = true;
+    this.selectedNews[0].disliked++;
+    this.disliked = 1;
+    this.liked = 1;
+    this.selectedNews[0].userdisliked = 1;
   }
 
 }

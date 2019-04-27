@@ -1,22 +1,22 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="primary" *ngFor="let i of selectedNews">
       <ion-button routerLink="/home" routerDirection="backward">
           <ion-icon size="large" ios="ios-arrow-round-back" md="md-arrow-round-back"></ion-icon>
         </ion-button>
-    <ion-title>{{news[selectedID].title}}</ion-title>
+    <ion-title>{{i.title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-img [src]="news[selectedID].picture"></ion-img>
-  <p>{{news[selectedID].content}}</p>
+<ion-content *ngFor="let i of selectedNews">
+ <ion-img [src]="i.picture"></ion-img>
+  <p>{{i.content}}</p>
   <br>
-  <p>Bu haber {{news[selectedID].views}} kez görüntülendi.</p>
+  <p>Bu haber {{i.views}} kez görüntülendi.</p>
   <ion-button [disabled]="liked"  (click)="like()">
-    <ion-icon color="success"  ios="ios-thumbs-up" md="md-thumbs-up" slot="start"></ion-icon>{{news[selectedID].liked}}
+    <ion-icon color="success"  ios="ios-thumbs-up" md="md-thumbs-up" slot="start"></ion-icon>{{i.liked}}
   </ion-button>
   <ion-button [disabled]="disliked"  (click)="dislike()">
-    <ion-icon color = "danger" ios="ios-thumbs-down" md="md-thumbs-down"></ion-icon>{{news[selectedID].disliked}}
+    <ion-icon color = "danger" ios="ios-thumbs-down" md="md-thumbs-down"></ion-icon>{{i.disliked}}
   </ion-button>
   
 </ion-content>
